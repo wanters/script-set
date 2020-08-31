@@ -1,2 +1,3 @@
 # script_set
-脚本集
+1.Organize daily scripts
+2.deldir.bat, delete any folder
