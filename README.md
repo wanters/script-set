@@ -1,6 +1,5 @@
 # script_set
 1.Commonly used script
-
 2.deldir.bat, delete any folder
 
 3.monitor_ip.sh, monitor interface change
