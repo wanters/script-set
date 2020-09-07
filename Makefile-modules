@@ -1,0 +1,15 @@
+KERNELDIR := 					#KERNELDIR 表示开发板所使用的 Linux 内核源码目录，使用绝对路径
+CURRENT_PATH := $(shell pwd)	#表示当前路径，直接通过运行“pwd”命令来获取当前所处路径
+obj-m := chrdev.o				#obj-m 表示将 chrdev.c 这个文件编译为 chrdevbase.ko 模块
+
+build: kernel_modules
+
+kernel_modules:
+	$(MAKE) -C $(KERNELDIR) M=$(CURRENT_PATH) modules	
+	#具体的编译命令，后面的 modules 表示编译模块，
+	#-C 表示将当前的工作目录切换到指定目录中，也就是 KERNERLDIR 目录。
+	#M 表示模块源码目录，"make modules"命令中加入 M=dir以后 
+	#程序会自动到指定的dir目录中读取模块的源码并将其编译为.ko 文件
+
+clean:
+	$(MAKE) -C $(KERNELDIR) M=$(CURRENT_PATH) clean
