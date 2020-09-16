@@ -3,13 +3,18 @@
 monitor_log="/home/root/monitor_ip.log"
 monitor_log_max_size=200000
 
+if [[ ! -f $monitor_log ]]
+then
+	cd /home/root
+	touch $monitor_log
+fi
+
+echo "****** device restart ******" >> $monitor_log
+echo `date +%Y-%m-%d/%T` >> $monitor_log
+echo "****************************" >> $monitor_log
+
 while true
 do
-	if [[ ! -f $monitor_log ]]
-	then
-		cd /home/root
-		touch $monitor_log
-	fi
 	#查看是否有eth0网卡
 	net_card=`ifconfig | grep eth0 | awk '{print $1}'`
 	if [[ $net_card == "eth0" ]]
@@ -21,19 +26,21 @@ do
 #		echo "current ip first number is "$net_ip_first >> $monitor_log
 		if [[ $net_ip_first == "169" ]]
 		then
+			echo "======== network restart ==========" >> $monitor_log 
 			echo `date +%Y-%m-%d/%T` >> $monitor_log
 			echo "current ip is "$net_ip >> $monitor_log
-			echo "networking restart" >> $monitor_log
-			/etc/init.d/networking restart
+			/etc/init.d/networking restart &
+			echo "=================================" >> $monitor_log
 		fi
 		if [[ $net_ip == "" ]]
 		then
+			echo "++++++++ network restart ++++++++++" >> $monitor_log
 			echo `date +%Y-%m-%d/%T` >> $monitor_log
 			echo "current ip is null"$net_ip >> $monitor_log
-			echo "networking restart" >> $monitor_log
-			/etc/init.d/networking restart
+			/etc/init.d/networking restart &
+			echo "+++++++++++++++++++++++++++++++++" >> $monitor_log
 		fi
-		sleep 10
+		sleep 20
 	fi
 
 	log_size=`ls $monitor_log -l | cut -f 5 -d " "`
