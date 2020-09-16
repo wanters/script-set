@@ -7,3 +7,4 @@
 5. upload.sh, upload file to dev of dest ip  
 6. forwordtest.sh, nat transmit  
 7. Makefile-modules, compile modules
+8. kill_task.sh, stop task
