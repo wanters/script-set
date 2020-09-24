@@ -14,7 +14,7 @@ LIB_PATH = lib
 #生成头文件路径
 INC_PATH = inc
 #生成可执行程序
-TARGET = $(BIN)/dev_mod
+TARGET = $(BIN)/dev_mod_hc
 #生成静态库
 LIB_STATIC = $(LIB_PATH)/libbhdev.a
 #生成动态库
@@ -60,12 +60,12 @@ $(TARGET): $(OBJS) main.o
 $(LIB_STATIC): $(OBJS)
 	@echo ========= static lib ==============
 	@mkdir -p $(LIB_PATH)
-	@$(AR) crv $@ $(OBJS)
+	@$(AR) crv $@ $^
 
 $(LIB_DYNAMIC): $(OBJS)
 	@echo ========= dynamic lib ==============
 	@mkdir -p $(LIB_PATH)
-	@$(CC) -shared -o $@ $(OBJS)
+	@$(CC) -shared -o $@ $^
 
 %.o:%.c
 	@$(CC)  $(GFLAGS) -o $@ -c $< 
