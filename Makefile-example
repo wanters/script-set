@@ -1,0 +1,84 @@
+#######################
+# 1.makefile工程模板
+# 2.编译可执行程序
+# 3.生成静态库
+# 4.生成动态库
+# 5.条件编译宏
+# 注：注释内容单独一行，变量赋值后不要有空格等
+######################
+
+#生成可执行程序存放路径
+BIN = bin
+#生成库路径
+LIB_PATH = lib
+#生成头文件路径
+INC_PATH = inc
+#生成可执行程序
+TARGET = $(BIN)/dev_mod
+#生成静态库
+LIB_STATIC = $(LIB_PATH)/libbhdev.a
+#生成动态库
+LIB_DYNAMIC = $(LIB_PATH)/libbhdev.so
+
+#源文件
+SRCS = $(wildcard src/*.c)
+
+#头文件路径
+IFLAGS = -I./inc
+IFLAGS += -I./install-arm/include
+
+#链接库文件路径
+LDFLAGS_PATH = -L./install-arm/lib
+#链接库文件
+LDFLAGS	= -lpthread ./install-arm/lib/libssl.a ./install-arm/lib/libcrypto.a -ldl -lpopt
+
+#所有目标文件
+OBJS = $(SRCS:%.c=$(BIN)/%.o)
+
+#编译选项
+CFLAGS　= -g
+CFLAGS += -fPIC
+
+#所有编译选项
+GFLAGS = $(CFLAGS) $(IFLAGS)
+#GFLAGS = $(CFLAGS) $(IFLAGS)  #所有编译选项
+#所有链接选项
+LD_GFLAGS = $(LDFLAGS) $(LDFLAGS_PATH)
+
+#编译工具链
+CC = arm-linux-gcc
+AR = arm-linux-ar
+
+all: $(TARGET) $(LIB_STATIC) $(LIB_DYNAMIC)
+
+$(TARGET): $(OBJS) main.o  
+	@$(CC) -o $@ $^ $(LDFLAGS) $(LDFLAGS_PATH) 
+	#$(STRIP) $@
+	#$(STRIP) -x -R .note -R .comment $@
+	@echo [CC] compile finish
+
+$(LIB_STATIC): $(OBJS)
+	@echo ========= static lib ==============
+	@mkdir -p $(LIB_PATH)
+	@$(AR) crv $@ $(OBJS)
+
+$(LIB_DYNAMIC): $(OBJS)
+	@echo ========= dynamic lib ==============
+	@mkdir -p $(LIB_PATH)
+	@$(CC) -shared -o $@ $(OBJS)
+
+%.o:%.c
+	@$(CC)  $(GFLAGS) -o $@ -c $< 
+
+$(BIN)/%.o:%.c
+	@mkdir -p $(BIN)
+	@mkdir -p $(dir $@)
+	@$(CC) $(GFLAGS) -c $^ -o $@
+	@echo [CC] $^
+
+install:
+	@echo install finish
+
+.PHONY: clean
+clean:
+	rm -rvf $(BIN)/* main.o $(LIB_PATH)/*
