@@ -1,6 +1,9 @@
-KERNELDIR := 					#KERNELDIR 表示开发板所使用的 Linux 内核源码目录，使用绝对路径
-CURRENT_PATH := $(shell pwd)	#表示当前路径，直接通过运行“pwd”命令来获取当前所处路径
-obj-m := chrdev.o				#obj-m 表示将 chrdev.c 这个文件编译为 chrdevbase.ko 模块
+#KERNELDIR 表示开发板所使用的 Linux 内核源码目录，使用绝对路径
+KERNELDIR :=
+#表示当前路径，直接通过运行“pwd”命令来获取当前所处路径
+CURRENT_PATH := $(shell pwd)
+#obj-m 表示将 chrdev.c 这个文件编译为 chrdevbase.ko 模块
+obj-m := chrdev.o
 
 build: kernel_modules
 
