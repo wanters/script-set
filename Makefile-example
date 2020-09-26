@@ -6,7 +6,8 @@
 # 5.条件编译宏
 # 注：注释内容单独一行，变量赋值后不要有空格等
 ######################
-
+#版本
+VERSION = 1.0.0
 #生成可执行程序存放路径
 BIN = bin
 #生成库路径
@@ -14,11 +15,11 @@ LIB_PATH = lib
 #生成头文件路径
 INC_PATH = inc
 #生成可执行程序
-TARGET = $(BIN)/dev_mod_hc
+TARGET = $(BIN)/dev_mod_hc.$(VERSION)
 #生成静态库
-LIB_STATIC = $(LIB_PATH)/libbhdev.a
+LIB_STATIC = $(LIB_PATH)/libbhdev.$(VERSION).a
 #生成动态库
-LIB_DYNAMIC = $(LIB_PATH)/libbhdev.so
+LIB_DYNAMIC = $(LIB_PATH)/libbhdev.$(VERSION).so
 
 #源文件
 SRCS = $(wildcard src/*.c)
