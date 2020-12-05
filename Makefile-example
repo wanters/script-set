@@ -17,9 +17,9 @@ INC_PATH = inc
 #生成可执行程序
 TARGET = $(BIN)/dev_mod_hc.$(VERSION)
 #生成静态库
-LIB_STATIC = $(LIB_PATH)/libbhdev.$(VERSION).a
+LIB_STATIC = $(LIB_PATH)/libbhdev.a.$(VERSION)
 #生成动态库
-LIB_DYNAMIC = $(LIB_PATH)/libbhdev.$(VERSION).so
+LIB_DYNAMIC = $(LIB_PATH)/libbhdev.so.$(VERSION)
 
 #源文件
 SRCS = $(wildcard src/*.c)
